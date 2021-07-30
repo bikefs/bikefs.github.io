@@ -1,7 +1,7 @@
 ---
-title: "Sunday service demo site"
+title: "Sunday Service bike repair"
 description: |
-  Welcome to the website. I hope you enjoy it!
+  The Sunday Service community bike repair and servicing project
 site: distill::distill_website
 ---
 
@@ -16,3 +16,6 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ```
 
+
+Welcome to the Sunday Service website.
+See the [about](about.html) page for more info.
