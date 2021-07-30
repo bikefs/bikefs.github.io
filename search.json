@@ -1,0 +1,21 @@
+{
+  "articles": [
+    {
+      "path": "about.html",
+      "title": "About this site",
+      "description": "Some additional details about the website",
+      "author": [],
+      "contents": "\n\n\n\n",
+      "last_modified": "2021-07-30T18:57:45+01:00"
+    },
+    {
+      "path": "index.html",
+      "title": "Sunday service demo site",
+      "description": "Welcome to the website. I hope you enjoy it!\n",
+      "author": [],
+      "contents": "\n\n\n\n",
+      "last_modified": "2021-07-30T18:57:46+01:00"
+    }
+  ],
+  "collections": []
+}
