@@ -1,7 +1,7 @@
 ---
-title: "Sunday Service bike repair"
+title: "Bike Fix Sundays bike repair"
 description: |
-  The Sunday Service community bike repair and servicing project
+  The Bike Fix Sundays community bike repair and servicing project
 site: distill::distill_website
 ---
 
@@ -17,5 +17,5 @@ knitr::opts_chunk$set(echo = FALSE)
 ```
 
 
-Welcome to the Sunday Service website.
+Welcome to the Bike Fix Sundays website.
 See the [about](about.html) page for more info.

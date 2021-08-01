@@ -1,7 +1,7 @@
 name: "demo-site"
-title: "Sunday Service bike repair"
+title: "Bike Fix Sundays bike repair"
 description: |
-  The Sunday Service community bike repair and servicing project
+  The Bike Fix Sundays community bike repair and servicing project
 output_dir: "."
 navbar:
   right:
