@@ -1,5 +1,5 @@
 ---
-title: "Bike Fix Sundays bike repair"
+title: "Bike Fix Sundays"
 description: |
   The Bike Fix Sundays community bike repair and servicing project
 site: distill::distill_website
