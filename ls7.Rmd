@@ -1,3 +1,80 @@
+---
+title: "Sunday Service LS7"
+description: |
+  Community bike fixing in Chapeltown Leeds
+# author:
+#   - name: Nora Jones 
+#     url: https://example.com/norajones
+#     affiliation: Spacely Sprockets
+#     affiliation_url: https://example.com/spacelysprokets
+# date: "`r Sys.Date()`"
+output: distill::distill_article
+---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
 
-See our LS7 page at [ls7](ls7)
+library(tidyverse)
+library(tmap)
+tmap_mode("view")
+# Learn more about creating websites with Distill at:
+# https://rstudio.github.io/distill/website.html
+
+# Learn more about publishing to GitHub Pages at:
+# https://rstudio.github.io/distill/publish_website.html#github-pages
+
+```
+
+```{r, eval=FALSE}
+# get area representing leeds
+leeds = ukboundaries::leeds
+postcodes = readRDS("~/hd/data/uk/postcodes/postcodes_all_2020_ONSPD_AUG_2020_UK_lonlat.Rds")
+postcodes_leeds = postcodes %>% 
+  filter(str_detect(string = pcds, pattern = "^LS"))
+postcodes_ls7 = postcodes %>% 
+  filter(str_detect(string = pcds, pattern = "^LS7"))
+postcodes_ls7_sf = postcodes_ls7 %>% 
+  filter(lat < 60 & lat > 53.8) %>% 
+  sf::st_as_sf(coords = c("long", "lat"), crs = 4326)
+mapview::mapview(postcodes_ls7_sf) # identify dodgy data
+postcodes_ls7_sf = postcodes_ls7_sf %>% 
+  filter(!str_detect(string = pcds, pattern = "LS7 4ZB"))
+postcodes_boundary = postcodes_ls7_sf %>% 
+  # sf::st_union() %>% 
+  # sf::st_convex_hull()
+  concaveman::concaveman(concavity = 4) %>% 
+  sf::st_buffer(50) %>% 
+  rmapshaper::ms_simplify()
+mapview::mapview(postcodes_boundary)
+sf::write_sf(postcodes_boundary, "ls7.geojson")
+```
+
+Find us at the end of [Back Newton Grove](https://goo.gl/maps/b9LPAfBrcxc7ZEac7) just off Chapeltown Road and next to Potternewton Park:^[
+The map shows the location of the Coach House and a circle showing what's within 500 m of it.
+]
+
+```{r}
+ls7 = sf::read_sf("https://github.com/bikefs/ls7/raw/main/ls7.geojson")
+m = mapview::mapview(ls7)
+# sunday_service = mapedit::drawFeatures(map = m)
+sunday_service = sf::st_as_sf(data.frame(x = -1.5293, y = 53.8183), coords = c("x", "y"), crs = 4326)
+sunday_service$text = "Sunday Service LS7"
+# ss_bbox = sf::st_buffer(sunday_service, 500)
+ss_bbox = stplanr::geo_buffer(sunday_service, dist = 500)
+ss_bbox_100m = stplanr::geo_buffer(sunday_service, dist = 200)
+tm_shape(ls7, bbox = ss_bbox) +
+  tm_borders() +
+  tm_shape(ss_bbox) +
+  tm_borders(lty = 3) +
+  tm_shape(sunday_service) +
+  tm_markers() +
+  tm_view(bbox = ss_bbox_100m) +
+  tm_basemap(leaflet::providers$OpenStreetMap)
+```
+
+We open 2pm till 5pm most Sundays when we have enough volunteers.^[To help out volunteering email us at sundaryservicels7@gmail.com ]
+To book your bike in click on the form by clicking on the form below, telling us what needs fixing and what time you plan to arrive:
+https://forms.gle/WVeLv2QKKkoByDpi8
+
+For further info see our [Facebook Group](https://www.facebook.com/groups/1422757118107420).
+
