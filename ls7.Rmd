@@ -54,7 +54,7 @@ It's just off Chapeltown Road and next to Potternewton park, where we open 2pm -
 The map below shows we're within 500m walking distance of lots of streets in the LS7 postcode.
 
 ```{r}
-ls7 = sf::read_sf("ls7.geojson")
+ls7 = sf::read_sf("https://github.com/bikefs/ls7/raw/main/ls7.geojson")
 m = mapview::mapview(ls7)
 # sunday_service = mapedit::drawFeatures(map = m)
 sunday_service = sf::st_as_sf(data.frame(x = -1.5293, y = 53.8183), coords = c("x", "y"), crs = 4326)
