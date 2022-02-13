@@ -9,4 +9,6 @@ navbar:
       href: index.html
     - text: "About"
       href: about.html
+    - text: "Sunday Service LS7"
+      href: ls7.html
 output: distill::distill_article
