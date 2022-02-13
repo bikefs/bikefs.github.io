@@ -49,9 +49,9 @@ mapview::mapview(postcodes_boundary)
 sf::write_sf(postcodes_boundary, "ls7.geojson")
 ```
 
-Find us at the Coach House towards the end of Back Newton Grove.
-It's just off Chapeltown Road and next to Potternewton park, where we open 2pm - 5pm most Sundays.
-The map below shows we're within 500m walking distance of lots of streets in the LS7 postcode.
+Find us at the end of [Back Newton Grove](https://goo.gl/maps/b9LPAfBrcxc7ZEac7) just off Chapeltown Road and next to Potternewton Park:^[
+The map shows the location of the Coach House and a circle showing what's within 500 m of it.
+]
 
 ```{r}
 ls7 = sf::read_sf("https://github.com/bikefs/ls7/raw/main/ls7.geojson")
@@ -72,11 +72,9 @@ tm_shape(ls7, bbox = ss_bbox) +
   tm_basemap(leaflet::providers$OpenStreetMap)
 ```
 
-We don't fix your bike.
-We help people fix their own bikes, so you can fix it next time in needs a basic repair and share the knowledge.
+We open 2pm till 5pm most Sundays when we have enough volunteers.^[To help out volunteering email us at sundaryservicels7@gmail.com ]
+To book you bike in click on the form by clicking on the form below, telling us what needs fixing and what time you plan to arrive:
+https://forms.gle/WVeLv2QKKkoByDpi8
 
-You need to fill in a short form telling us what you would like to fix on your bike and what time you plan to arrive.
-To book you bike in for the next Sunday that we're open, please fill in the form here: https://forms.gle/WVeLv2QKKkoByDpi8
-
-For further info see our [about](about.html) page and our Facebook page (to be created).
+For further info see our [Facebook Group](https://www.facebook.com/groups/1422757118107420).
 
