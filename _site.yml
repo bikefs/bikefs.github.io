@@ -10,5 +10,5 @@ navbar:
     - text: "About"
       href: about.html
     - text: "Sunday Service LS7"
-      href: ls7.html
+      href: ls7
 output: distill::distill_article

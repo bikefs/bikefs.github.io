@@ -73,7 +73,7 @@ tm_shape(ls7, bbox = ss_bbox) +
 ```
 
 We open 2pm till 5pm most Sundays when we have enough volunteers.^[To help out volunteering email us at sundaryservicels7@gmail.com ]
-To book you bike in click on the form by clicking on the form below, telling us what needs fixing and what time you plan to arrive:
+To book your bike in click on the form by clicking on the form below, telling us what needs fixing and what time you plan to arrive:
 https://forms.gle/WVeLv2QKKkoByDpi8
 
 For further info see our [Facebook Group](https://www.facebook.com/groups/1422757118107420).
