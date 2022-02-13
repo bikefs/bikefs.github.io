@@ -58,6 +58,7 @@ ls7 = sf::read_sf("https://github.com/bikefs/ls7/raw/main/ls7.geojson")
 m = mapview::mapview(ls7)
 # sunday_service = mapedit::drawFeatures(map = m)
 sunday_service = sf::st_as_sf(data.frame(x = -1.5293, y = 53.8183), coords = c("x", "y"), crs = 4326)
+sunday_service$text = "Sunday Service LS7"
 # ss_bbox = sf::st_buffer(sunday_service, 500)
 ss_bbox = stplanr::geo_buffer(sunday_service, dist = 500)
 ss_bbox_100m = stplanr::geo_buffer(sunday_service, dist = 200)
@@ -66,7 +67,7 @@ tm_shape(ls7, bbox = ss_bbox) +
   tm_shape(ss_bbox) +
   tm_borders(lty = 3) +
   tm_shape(sunday_service) +
-  tm_dots() +
+  tm_markers() +
   tm_view(bbox = ss_bbox_100m) +
   tm_basemap(leaflet::providers$OpenStreetMap)
 ```
