@@ -1,0 +1,22 @@
+---
+title: "About the project"
+description: |
+  How we got started
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+The project is inspired by the [Pedallers Arms](https://pedallers-arms.org/) cooperative project supported by [Latch](https://www.latch.org.uk/).
+
+In each session there will be two people who have experience of fixing bikes to help with minor repairs such as punctures, gear servicing and replacing brake pads.
+We cannot fix major repairs but we can provide advice and help diagnose problems.
+The focus is on helping you to fix your own bike and giving you the skills to fix your bike, and help others, in the future.
+
+Get in touch with any questions or if you'd like to help by donating parts, tools or volunteer time by emailing us at [sundayservicels7@gmail.com](mailto:https://forms.gle/WVeLv2QKKkoByDpi8).
+
+If you would like to fix your bike you can book it in by filling in our booking form [here](https://forms.gle/WVeLv2QKKkoByDpi8).
+
+We ask that you fill in the form before bringing your bike although anyone is more than welcome to pass by to say hi while we're working on bikes.

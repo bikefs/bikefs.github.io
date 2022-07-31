@@ -1,0 +1,84 @@
+---
+title: "Sunday Service LS7"
+description: |
+  The Sunday Service community bike repair and servicing project based in the LS7 area, Chapeltown, Leeds
+site: distill::distill_website
+---
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+library(tidyverse)
+library(tmap)
+tmap_mode("view")
+# Learn more about creating websites with Distill at:
+# https://rstudio.github.io/distill/website.html
+
+# Learn more about publishing to GitHub Pages at:
+# https://rstudio.github.io/distill/publish_website.html#github-pages
+
+```
+
+```{r, eval=FALSE}
+# get area representing leeds
+leeds = ukboundaries::leeds
+postcodes = readRDS("~/hd/data/uk/postcodes/postcodes_all_2020_ONSPD_AUG_2020_UK_lonlat.Rds")
+postcodes_leeds = postcodes %>% 
+  filter(str_detect(string = pcds, pattern = "^LS"))
+postcodes_ls7 = postcodes %>% 
+  filter(str_detect(string = pcds, pattern = "^LS7"))
+postcodes_ls7_sf = postcodes_ls7 %>% 
+  filter(lat < 60 & lat > 53.8) %>% 
+  sf::st_as_sf(coords = c("long", "lat"), crs = 4326)
+mapview::mapview(postcodes_ls7_sf) # identify dodgy data
+postcodes_ls7_sf = postcodes_ls7_sf %>% 
+  filter(!str_detect(string = pcds, pattern = "LS7 4ZB"))
+postcodes_boundary = postcodes_ls7_sf %>% 
+  # sf::st_union() %>% 
+  # sf::st_convex_hull()
+  concaveman::concaveman(concavity = 4) %>% 
+  sf::st_buffer(50) %>% 
+  rmapshaper::ms_simplify()
+mapview::mapview(postcodes_boundary)
+sf::write_sf(postcodes_boundary, "ls7.geojson")
+```
+
+Find us at the Coach House towards the end of Back Newton Grove.
+It's just off Chapeltown Road and next to Potternewton park, where we open 2pm - 5pm most Sundays.
+The map below shows we're within 500m walking distance of lots of streets in the LS7 postcode.
+
+```{r}
+ls7 = sf::read_sf("ls7.geojson")
+m = mapview::mapview(ls7)
+# sunday_service = mapedit::drawFeatures(map = m)
+sunday_service = sf::st_as_sf(data.frame(x = -1.5293, y = 53.8183), coords = c("x", "y"), crs = 4326)
+# ss_bbox = sf::st_buffer(sunday_service, 500)
+ss_bbox = stplanr::geo_buffer(sunday_service, dist = 500)
+ss_bbox_100m = stplanr::geo_buffer(sunday_service, dist = 200)
+tm_shape(ls7, bbox = ss_bbox) +
+  tm_borders() +
+  tm_shape(ss_bbox) +
+  tm_borders(lty = 3) +
+  tm_shape(sunday_service$geometry) +
+  tm_dots(size = 1, alpha = 0.7) +
+  # tm_markers(text = "Bike Fix Sunday LS7\nThe Coach") +
+  tm_view(bbox = ss_bbox_100m) +
+  tm_basemap(leaflet::providers$OpenStreetMap)
+```
+
+See our opening times in the Calendar below.
+
+<iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=1&bgcolor=%23ffffff&ctz=Europe%2FLondon&mode=AGENDA&src=c3VuZGF5c2VydmljZWxzN0BnbWFpbC5jb20&src=ZW4udWsjaG9saWRheUBncm91cC52LmNhbGVuZGFyLmdvb2dsZS5jb20&color=%23039BE5&color=%230B8043" style="border:solid 1px #777" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+
+We don't fix your bike.
+We help people fix their own bikes, so you can fix it next time in needs a basic repair and share the knowledge.
+
+You need to fill in a short form telling us what you would like to fix on your bike and what time you plan to arrive.
+To book you bike in for the next Sunday that we're open, please fill in the form here: https://forms.gle/WVeLv2QKKkoByDpi8
+
+For further info see our [about](about.html) page and our Facebook page (to be created).
+
+
+
