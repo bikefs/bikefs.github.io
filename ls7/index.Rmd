@@ -5,6 +5,9 @@ description: |
 site: distill::distill_website
 ---
 
+```{r deploy, include=FALSE}
+system("bash ./deploy.sh")
+```
 
 
 ```{r setup, include=FALSE}
