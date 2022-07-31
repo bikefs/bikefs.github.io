@@ -49,7 +49,8 @@ sf::write_sf(postcodes_boundary, "ls7.geojson")
 ```
 
 Find us at the Coach House towards the end of Back Newton Grove.
-It's just off Chapeltown Road and next to Potternewton park, where we open 2pm - 5pm most Sundays.
+It's just off Chapeltown Road and next to Potternewton park, where we open 2pm - 5pm on Sundays, currently every Sunday. We would like to open every Sunday, get in touch via email address below to help make that happen!
+
 The map below shows we're within 500m walking distance of lots of streets in the LS7 postcode.
 
 ```{r}
