@@ -55,7 +55,7 @@ We would like to open every Sunday, get in touch via email address below to help
 
 The map below shows we're within 500m walking distance of lots of streets in the LS7 postcode.
 
-```{r}
+```{r map1}
 ls7 = sf::read_sf("ls7.geojson")
 m = mapview::mapview(ls7)
 # sunday_service = mapedit::drawFeatures(map = m)
@@ -69,8 +69,9 @@ m = tm_shape(ls7) +
   tm_shape(ss_bbox) +
   tm_borders(lty = 3) +
   tm_shape(sunday_service) +
+  tm_bubbles() +
   # tm_markers() +
-  tm_markers(text = "Bike Fix Sunday LS7\nThe Coach") +
+  # tm_markers(text = "Bike Fix Sunday LS7\nThe Coach") +
   tm_view() +
   tm_basemap(leaflet::providers$OpenStreetMap)
 m
