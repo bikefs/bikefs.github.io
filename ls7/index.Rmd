@@ -83,10 +83,10 @@ See our opening times in the Calendar below.
 
 <iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=1&bgcolor=%23ffffff&ctz=Europe%2FLondon&mode=AGENDA&src=c3VuZGF5c2VydmljZWxzN0BnbWFpbC5jb20&src=ZW4udWsjaG9saWRheUBncm91cC52LmNhbGVuZGFyLmdvb2dsZS5jb20&color=%23039BE5&color=%230B8043" style="border:solid 1px #777" width="800" height="600" frameborder="0" scrolling="no"></iframe>
 
-We help you fix your bike and build your bike servicing skills so you can fix it next time in needs a basic repair and share the knowledge.
+We help you fix your bike and build your bike servicing skills so you can fix it next time it needs a basic repair and share the knowledge.
 
 You need to fill in a short form telling us what you would like to fix on your bike and what time you plan to arrive.
-To book you bike in for the next Sunday that we're open, please fill in the form here: https://forms.gle/WVeLv2QKKkoByDpi8
+To book your bike in for the next Sunday that we're open, please fill in the form here: https://forms.gle/WVeLv2QKKkoByDpi8
 
 For further info see our [about](about.html) page and our Facebook page to ask questions and help build the bike fixing community in LS7: https://www.facebook.com/groups/1422757118107420
 
