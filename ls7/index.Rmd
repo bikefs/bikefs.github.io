@@ -70,7 +70,7 @@ m = tm_shape(ls7) +
   tm_borders(lty = 3) +
   tm_shape(sunday_service) +
   # tm_bubbles() +
-  tm_markers() +
+  tm_symbols() +
   # tm_markers(text = "Bike Fix Sunday LS7\nThe Coach") +
   tm_view() +
   tm_basemap(leaflet::providers$OpenStreetMap)
