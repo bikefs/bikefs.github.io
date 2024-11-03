@@ -69,10 +69,10 @@ m = tm_shape(ls7) +
   tm_shape(ss_bbox) +
   tm_borders(lty = 3) +
   tm_shape(sunday_service) +
-  tm_dots(size = 1, alpha = 0.7) 
-  # tm_markers(text = "Bike Fix Sunday LS7\nThe Coach") +
-  # tm_view() +
-  # tm_basemap(leaflet::providers$OpenStreetMap)
+  # tm_markers() +
+  tm_markers(text = "Bike Fix Sunday LS7\nThe Coach") +
+  tm_view() +
+  tm_basemap(leaflet::providers$OpenStreetMap)
 m
 ```
 
