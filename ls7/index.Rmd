@@ -73,6 +73,7 @@ m = tm_shape(ls7) +
   # tm_markers(text = "Bike Fix Sunday LS7\nThe Coach") +
   # tm_view() +
   # tm_basemap(leaflet::providers$OpenStreetMap)
+m
 ```
 
 See our opening times in the Calendar below.
