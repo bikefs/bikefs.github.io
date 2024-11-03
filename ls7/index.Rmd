@@ -55,6 +55,8 @@ We would like to open every Sunday, get in touch via email address below to help
 
 The map below shows we're within 500m walking distance of lots of streets in the LS7 postcode.
 
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d8757.59415240981!2d-1.5367380422882952!3d53.817051403368936!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48795bb7d6ba2bfd%3A0x59128ce8416d0422!2sThe%20Coach%20House!5e0!3m2!1sen!2suk!4v1730665827457!5m2!1sen!2suk" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
 ```{r map1}
 ls7 = sf::read_sf("ls7.geojson")
 m = mapview::mapview(ls7)
@@ -74,7 +76,7 @@ m = tm_shape(ls7) +
   # tm_markers(text = "Bike Fix Sunday LS7\nThe Coach") +
   tm_view() +
   tm_basemap(leaflet::providers$OpenStreetMap)
-m
+# m
 ```
 
 See our opening times in the Calendar below.
