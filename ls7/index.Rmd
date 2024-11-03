@@ -63,6 +63,7 @@ sunday_service = sf::st_as_sf(data.frame(x = -1.5293, y = 53.8183), coords = c("
 # ss_bbox = sf::st_buffer(sunday_service, 500)
 ss_bbox = stplanr::geo_buffer(sunday_service, dist = 500)
 ss_bbox_100m = stplanr::geo_buffer(sunday_service, dist = 200)
+# tm_shape(ls7, bbox = ss_bbox_100m) +
 tm_shape(ls7) +
   tm_borders() +
   tm_shape(ss_bbox) +
@@ -70,7 +71,7 @@ tm_shape(ls7) +
   tm_shape(sunday_service$geometry) +
   tm_dots(size = 1, alpha = 0.7) +
   # tm_markers(text = "Bike Fix Sunday LS7\nThe Coach") +
-  tm_view(bbox = ss_bbox_100m) +
+  tm_view() +
   tm_basemap(leaflet::providers$OpenStreetMap)
 ```
 
