@@ -23,6 +23,7 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
@@ -457,8 +458,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
 
   <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-  <link href="site_libs/font-awesome-6.2.1/css/all.min.css" rel="stylesheet"/>
-  <link href="site_libs/font-awesome-6.2.1/css/v4-shims.min.css" rel="stylesheet"/>
+  <link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet"/>
+  <link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet"/>
   <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
   <script src="site_libs/autocomplete-0.37.1/autocomplete.min.js"></script>
   <script src="site_libs/fuse-6.4.1/fuse.min.js"></script>
@@ -828,9 +829,21 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     display: none !important;
   }
 
+  hr.section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    margin: 0px;
+  }
+
+
+  d-byline {
+    border-top: none;
+  }
+
   d-article {
     padding-top: 2.5rem;
     padding-bottom: 30px;
+    border-top: none;
   }
 
   d-appendix {
@@ -925,6 +938,11 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   d-article div.sourceCode pre {
     padding-left: 18px;
     font-size: 14px;
+  }
+
+  /* tweak for Pandoc numbered line within distill */
+  d-article pre.numberSource code > span {
+      left: -2em;
   }
 
   d-article pre {
@@ -1686,6 +1704,12 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     // create d-title
     $('.d-title').changeElementType('d-title');
 
+    // separator
+    var separator = '<hr class="section-separator" style="clear: both"/>';
+    // prepend separator above appendix
+    $('.d-byline').before(separator);
+    $('.d-article').before(separator);
+
     // create d-byline
     var byline = $('<d-byline></d-byline>');
     $('.d-byline').replaceWith(byline);
@@ -1763,8 +1787,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     $('.distill-force-highlighting-css').parent().remove();
 
     // remove empty line numbers inserted by pandoc when using a
-    // custom syntax highlighting theme
-    $('code.sourceCode a:empty').remove();
+    // custom syntax highlighting theme, except when numbering line
+    // in code chunk
+    $('pre:not(.numberLines) code.sourceCode a:empty').remove();
 
     // load distill framework
     load_distill_framework();
@@ -1790,12 +1815,13 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
       // add orcid ids
       $('.authors-affiliations').find('.author').each(function(i, el) {
         var orcid_id = front_matter.authors[i].orcidID;
+        var author_name = front_matter.authors[i].author
         if (orcid_id) {
           var a = $('<a></a>');
           a.attr('href', 'https://orcid.org/' + orcid_id);
           var img = $('<img></img>');
           img.addClass('orcid-id');
-          img.attr('alt', 'ORCID ID');
+          img.attr('alt', author_name ? 'ORCID ID for ' + author_name : 'ORCID ID');
           img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
           a.append(img);
           $(this).append(a);
@@ -2073,18 +2099,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </script>
 
   <!--/radix_placeholder_distill-->
-  <script src="site_libs/header-attrs-2.21/header-attrs.js"></script>
-  <script src="site_libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
-  <script src="site_libs/jquery-1.12.4/jquery.min.js"></script>
-  <link href="site_libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
-  <script src="site_libs/leaflet-1.3.1/leaflet.js"></script>
-  <link href="site_libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
-  <script src="site_libs/proj4-2.6.2/proj4.min.js"></script>
-  <script src="site_libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
-  <link href="site_libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
-  <script src="site_libs/leaflet-binding-2.1.2/leaflet.js"></script>
-  <script src="site_libs/leaflet-providers-1.9.0/leaflet-providers_1.9.0.js"></script>
-  <script src="site_libs/leaflet-providers-plugin-2.1.2/leaflet-providers-plugin.js"></script>
+  <script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
   <script src="site_libs/popper-2.6.0/popper.min.js"></script>
   <link href="site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
   <link href="site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
@@ -2127,6 +2142,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 <div class="d-title">
 <h1>Sunday Service LS7</h1>
+
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
 <p><p>The Sunday Service community bike repair and servicing project based in the LS7 area, Chapeltown, Leeds</p></p>
@@ -2142,14 +2158,12 @@ It’s just off Chapeltown Road and next to Potternewton park, where we open 2pm
 We would like to open every Sunday, get in touch via email address below to help make that happen!</p>
 <p>The map below shows we’re within 500m walking distance of lots of streets in the LS7 postcode.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="leaflet html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-63341e84aacef5821adb" style="width:624px;height:384px;"></div>
-<script type="application/json" data-for="htmlwidget-63341e84aacef5821adb">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"createMapPane","args":["tmap401",401]},{"method":"createMapPane","args":["tmap402",402]},{"method":"createMapPane","args":["tmap403",403]},{"method":"addProviderTiles","args":["OpenStreetMap",null,"OpenStreetMap",{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"pane":"tilePane"}]},{"method":"addPolygons","args":[[[[{"lng":[-1.5232611,-1.5243292,-1.5258067,-1.5293943,-1.536767,-1.5402585,-1.5453076,-1.5473959,-1.5474338,-1.5492273,-1.5480941,-1.5481806,-1.5496508,-1.5525589,-1.5542856,-1.5567746,-1.5581257,-1.5606199,-1.5617484,-1.5648764,-1.5664384,-1.5663599,-1.5640347,-1.553761,-1.550281,-1.5428147,-1.5390497,-1.5337613,-1.5317111,-1.5296039,-1.527888,-1.5266391,-1.5231513,-1.522237,-1.5219091,-1.5228379,-1.5226214,-1.5232611],"lat":[53.8139193,53.8110211,53.8081178,53.8026427,53.8025487,53.8026736,53.804963,53.805636,53.8063036,53.809006,53.8107174,53.8122434,53.8164668,53.8171081,53.818613,53.8190899,53.8211938,53.8217554,53.8230984,53.8244154,53.8266014,53.8288088,53.8312153,53.8337248,53.8347881,53.8352236,53.8357811,53.8329631,53.8329893,53.8319977,53.8306617,53.8303381,53.8266485,53.8249629,53.8227608,53.8210308,53.8171516,53.8139193]}]]],"X1","ls7",{"interactive":false,"className":"","pane":"tmap401","stroke":true,"color":"#666666","weight":1,"opacity":1,"fill":true,"fillOpacity":0,"dashArray":"none","smoothFactor":1,"noClip":false},null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addPolygons","args":[[[[{"lng":[-1.5217082543202,-1.52171870097793,-1.52174992709999,-1.52180184675298,-1.5218743172916,-1.52196713975328,-1.52208005940715,-1.5222127664556,-1.52236489688663,-1.52253603347457,-1.52272570692636,-1.52293339717021,-1.52315853478326,-1.52340050255393,-1.52365863717516,-1.52393223106338,-1.52422053429857,-1.52452275667994,-1.52483806989163,-1.52516560977244,-1.52550447868343,-1.52585374796698,-1.52621246049038,-1.5265796332672,-1.52695426014918,-1.5273353145813,-1.52772175241256,-1.52811251475468,-1.52850653088104,-1.52890272115792,-1.5293,-1.52969727884208,-1.53009346911896,-1.53048748524532,-1.53087824758744,-1.5312646854187,-1.53164573985082,-1.5320203667328,-1.53238753950962,-1.53274625203302,-1.53309552131657,-1.53343439022756,-1.53376193010837,-1.53407724332006,-1.53437946570143,-1.53466776893662,-1.53494136282484,-1.53519949744607,-1.53544146521675,-1.53566660282979,-1.53587429307365,-1.53606396652542,-1.53623510311337,-1.5363872335444,-1.53651994059285,-1.53663286024672,-1.5367256827084,-1.53679815324702,-1.53685007290001,-1.53688129902207,-1.5368917456798,-1.53688138389103,-1.5368502417081,-1.53679840414473,-1.53672601294685,-1.53663326620774,-1.53652041782865,-1.53638777682629,-1.53623570648904,-1.53606462338415,-1.53587499621877,-1.53566734455748,-1.5354422374005,-1.53520029162568,-1.5349421702991,-1.53466858085868,-1.5343802731757,-1.53407803749967,-1.53376270229213,-1.53343513195528,-1.5330962244617,-1.53274690889177,-1.5323881428853,-1.5320209100147,-1.53164621708664,-1.53126509137972,-1.53087857782589,-1.53048773614304,-1.53009363792705,-1.52969736371104,-1.5293,-1.52890263628896,-1.52850636207295,-1.52811226385697,-1.52772142217411,-1.52733490862028,-1.52695378291337,-1.5265790899853,-1.52621185711471,-1.52585309110824,-1.5255037755383,-1.52516486804472,-1.52483729770787,-1.52452196250033,-1.52421972682431,-1.52393141914133,-1.5236578297009,-1.52339970837433,-1.5231577625995,-1.52293265544252,-1.52272500378123,-1.52253537661584,-1.52236429351097,-1.52221222317371,-1.52207958217135,-1.52196673379226,-1.52187398705315,-1.52180159585527,-1.52174975829191,-1.52171861610897,-1.5217082543202],"lat":[53.8182997597789,53.8180646517303,53.8178301893978,53.8175970154104,53.817365768855,53.8171370835258,53.8169115861866,53.8166898948542,53.8164726171045,53.8162603484083,53.8160536704994,53.8158531497818,53.8156593357774,53.8154727596212,53.8152939326063,53.815123344784,53.8149614636211,53.8148087327204,53.8146655706053,53.8145323695741,53.814409494626,53.8142972824613,53.8141960405597,53.8141060463386,53.8140275463934,53.8139607558224,53.8139058576382,53.8138630022662,53.8138323071334,53.8138138563465,53.8138077004617,53.8138138563465,53.8138323071334,53.8138630022662,53.8139058576382,53.8139607558224,53.8140275463934,53.8141060463386,53.8141960405597,53.8142972824613,53.814409494626,53.8145323695741,53.8146655706053,53.8148087327204,53.8149614636211,53.815123344784,53.8152939326063,53.8154727596212,53.8156593357774,53.8158531497818,53.8160536704994,53.8162603484083,53.8164726171045,53.8166898948542,53.8169115861866,53.8171370835258,53.817365768855,53.8175970154104,53.8178301893978,53.8180646517303,53.8182997597789,53.8185348691341,53.8187693353723,53.8190025158218,53.8192337713245,53.8194624679887,53.819687978926,53.8199096859708,53.8201269813749,53.8203392694744,53.8205459683225,53.8207465112861,53.8209403485994,53.8211269488721,53.8213058005468,53.8214764133022,53.8216383193981,53.8217910749586,53.8219342611903,53.8220674855303,53.8221903827244,53.8223026158284,53.8224038771331,53.8224938890088,53.8225724046664,53.8226392088355,53.8226941183546,53.822736982674,53.8227676842688,53.8227861389615,53.822792296153,53.8227861389615,53.8227676842688,53.822736982674,53.8226941183546,53.8226392088355,53.8225724046664,53.8224938890088,53.8224038771331,53.8223026158284,53.8221903827244,53.8220674855303,53.8219342611903,53.8217910749586,53.8216383193981,53.8214764133022,53.8213058005468,53.8211269488721,53.8209403485994,53.8207465112861,53.8205459683225,53.8203392694744,53.8201269813749,53.8199096859708,53.819687978926,53.8194624679887,53.8192337713245,53.8190025158218,53.8187693353723,53.8185348691341,53.8182997597789]}]]],"X1.1","ss_bbox",{"interactive":false,"className":"","pane":"tmap402","stroke":true,"color":"#666666","weight":1,"opacity":1,"fill":true,"fillOpacity":0,"dashArray":"4,4","smoothFactor":1,"noClip":false},null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addCircleMarkers","args":[53.8183,-1.5293,20,"X1.2","sunday_service$geometry",{"interactive":true,"className":"","pane":"tmap403","stroke":true,"color":"#666666","weight":1,"opacity":0.5,"fill":true,"fillColor":"#000000","fillOpacity":0.698039215686274},null,null,"<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}<\/style><div style=\"max-height:25em;padding-right:0px;\"><table>\n\t\t\t   <thead><tr><th colspan=\"2\"><b>1<\/b><\/th><\/thead><\/tr><tr><td style=\"color: #888888;\"><nobr>tmapID<\/nobr><\/td><td align=\"right\"><nobr>1<\/nobr><\/td><\/tr><\/table><\/div>",null,"1",{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addLayersControl","args":[[],["ls7","ss_bbox","sunday_service$geometry"],{"collapsed":true,"autoZIndex":true,"position":"topleft"}]}],"limits":{"lat":[53.8025487,53.8357811],"lng":[-1.5664384,-1.5217082543202]},"fitBounds":[53.8165030805909,-1.53233669828164,53.8200969188674,-1.52626330171836,[]]},"evals":[],"jsHooks":[]}</script>
+
 </div>
 <p>See our opening times in the Calendar below.</p>
 <iframe src="https://calendar.google.com/calendar/embed?height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;ctz=Europe%2FLondon&amp;mode=AGENDA&amp;src=c3VuZGF5c2VydmljZWxzN0BnbWFpbC5jb20&amp;src=ZW4udWsjaG9saWRheUBncm91cC52LmNhbGVuZGFyLmdvb2dsZS5jb20&amp;color=%23039BE5&amp;color=%230B8043" style="border:solid 1px #777" width="800" height="600" frameborder="0" scrolling="no">
 </iframe>
-<p>We don’t fix your bike.
-We help people fix their own bikes, so you can fix it next time in needs a basic repair and share the knowledge.</p>
+<p>We help you fix your bike and build your bike servicing skills so you can fix it next time in needs a basic repair and share the knowledge.</p>
 <p>You need to fill in a short form telling us what you would like to fix on your bike and what time you plan to arrive.
 To book you bike in for the next Sunday that we’re open, please fill in the form here: <a href="https://forms.gle/WVeLv2QKKkoByDpi8" class="uri">https://forms.gle/WVeLv2QKKkoByDpi8</a></p>
 <p>For further info see our <a href="about.html">about</a> page and our Facebook page to ask questions and help build the bike fixing community in LS7: <a href="https://www.facebook.com/groups/1422757118107420" class="uri">https://www.facebook.com/groups/1422757118107420</a></p>
