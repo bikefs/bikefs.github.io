@@ -1,7 +1,7 @@
 ---
-title: "Sunday Service LS7"
+title: "Bike Fix Sunday LS7"
 description: |
-  The Sunday Service community bike repair and servicing project based in the LS7 area, Chapeltown, Leeds
+  The Bike Fix Sunday community bike repair and servicing project based in the LS7 area, Chapeltown, Leeds
 site: distill::distill_website
 ---
 
