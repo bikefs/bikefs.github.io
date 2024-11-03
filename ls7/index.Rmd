@@ -45,7 +45,7 @@ postcodes_boundary = postcodes_ls7_sf %>%
   concaveman::concaveman(concavity = 4) %>% 
   sf::st_buffer(50) %>% 
   rmapshaper::ms_simplify()
-mapview::mapview(postcodes_boundary)
+# mapview::mapview(postcodes_boundary)
 sf::write_sf(postcodes_boundary, "ls7.geojson")
 ```
 
