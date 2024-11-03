@@ -67,10 +67,10 @@ ss_bbox_100m = stplanr::geo_buffer(sunday_service, dist = 200)
 m = tm_shape(ls7) +
   tm_borders()
   tm_shape(ss_bbox) +
-  tm_borders(lty = 3)
-  # tm_shape(sunday_service$geometry) +
-  # tm_dots(size = 1, alpha = 0.7) +
-  # # tm_markers(text = "Bike Fix Sunday LS7\nThe Coach") +
+  tm_borders(lty = 3) +
+  tm_shape(sunday_service$geometry) +
+  tm_dots(size = 1, alpha = 0.7) 
+  # tm_markers(text = "Bike Fix Sunday LS7\nThe Coach") +
   # tm_view() +
   # tm_basemap(leaflet::providers$OpenStreetMap)
 ```
