@@ -65,7 +65,7 @@ ss_bbox = stplanr::geo_buffer(sunday_service, dist = 500)
 ss_bbox_100m = stplanr::geo_buffer(sunday_service, dist = 200)
 # tm_shape(ls7, bbox = ss_bbox_100m) +
 m = tm_shape(ls7) +
-  tm_borders()
+  tm_borders() +
   tm_shape(ss_bbox) +
   tm_borders(lty = 3) +
   tm_shape(sunday_service$geometry) +
